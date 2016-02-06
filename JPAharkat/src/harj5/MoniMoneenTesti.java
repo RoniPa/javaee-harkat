@@ -69,7 +69,8 @@ public class MoniMoneenTesti {
 				"SELECT DISTINCT t0.ID, t0.NIMI, t0.OSOITE, "
 				+ "t1.ID, t1.HINTA, t1.KOODI, t1.NIMI "
 				+ "FROM kauppa_moneen t0, tuote_moneen_kauppa_moneen t2, tuote_moneen t1 "
-				+ "WHERE ((t2.tuotteet_ID = t1.ID) AND (t0.ID = t2.kaupat_ID))", KauppaMoneen.class);
+				+ "WHERE ((t0.ID = t2.kaupat_ID) AND (t2.tuotteet_ID = t1.ID)) "
+				+ "GROUP BY t0.ID", KauppaMoneen.class);
 		
 		List<?> tulokset = query2.getResultList();
 		
