@@ -66,10 +66,13 @@ public class MoniMoneenTesti {
 	
 	private static void tulostaKaupatJaTuotteet(EntityManager manageri){
 		Query query2 = manageri.createNativeQuery(
-				"SELECT DISTINCT t0.ID, t0.NIMI, t0.OSOITE, "
+				"SELECT t0.ID, t0.NIMI, t0.OSOITE, "
 				+ "t1.ID, t1.HINTA, t1.KOODI, t1.NIMI "
-				+ "FROM kauppa_moneen t0, tuote_moneen_kauppa_moneen t2, tuote_moneen t1 "
-				+ "WHERE ((t0.ID = t2.kaupat_ID) AND (t2.tuotteet_ID = t1.ID)) "
+				+ "FROM kauppa_moneen t0 "
+				+ "LEFT OUTER JOIN tuote_moneen_kauppa_moneen t2 "
+				+ "ON t0.ID = t2.kaupat_ID "
+				+ "LEFT OUTER JOIN tuote_moneen t1 "
+				+ "ON t2.tuotteet_ID = t1.ID "
 				+ "GROUP BY t0.ID", KauppaMoneen.class);
 		
 		List<?> tulokset = query2.getResultList();
