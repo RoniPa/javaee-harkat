@@ -1,0 +1,11 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!tomEEprojekti/src/jdbcharkat/*
+!JPAharkat/src/*
+!JPAharkat/src/*/*
+
+# ...even if they are in subdirectories
+!*/
