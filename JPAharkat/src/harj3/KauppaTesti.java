@@ -21,7 +21,7 @@ public class KauppaTesti {
 		lisaaData(manageri);
 		manageri.close();
 		
-		// TODO: Testikysely palauttaa tietokantaan tallennetut tiedot – haku ja tulostus
+		// Testikysely palauttaa tietokantaan tallennetut tiedot – haku ja tulostus
 		
 		// Avataan uusi yhteys
 		manageri = tehdas.createEntityManager();

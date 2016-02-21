@@ -48,11 +48,13 @@ public class Tehtava7Main {
 				kysymykset.get(v.getKysymysId()).getVaihtoehdot().add(v);
 			}
 			
+			/*
 			kysymykset.values().forEach((m)->{
 				System.out.println(m.getKysymys());
 				System.out.println(m.getVaihtoehdot().stream().map(VaihtoehtoDTO::getTeksti)
 						.collect(Collectors.joining(", ")) + "\n");
 			});
+			*/
 			
 		} catch (SQLException ex) {
 			System.err.println("Tässäpä vasta kumma pulma: " + ex);

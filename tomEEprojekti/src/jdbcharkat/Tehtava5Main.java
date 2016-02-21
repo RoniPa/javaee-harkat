@@ -31,6 +31,7 @@ public class Tehtava5Main {
 				henkilot.add(h);
 			}
 			
+			/*
 			System.out.println("**************Tulokset (Ankka ja Hiiri)**************");
 			henkilot.stream().sorted().forEach((h)->{
 				String output = h.getEtunimi() + " " + h.getSukunimi()
@@ -39,6 +40,7 @@ public class Tehtava5Main {
 				
 				System.out.println(output);
 			});
+			*/
 		} catch(SQLException ex){
 			System.err.println("Tapahtui virhe :(");
 		} finally {
