@@ -11,7 +11,7 @@
 </head>
 <body>
 	<jsp:useBean id="kori" class="java.util.ArrayList" scope="session"/>
-	<jsp:useBean id="tuote" class="tuntipavut.Tuote" scope="page"/>
+	<jsp:useBean id="tuote" class="beans.Tuote" scope="page"/>
 	
 	<form method="post">
 		Nimi <input type="text" name="nimi"><br>
