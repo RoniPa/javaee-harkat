@@ -23,12 +23,11 @@
 		if (data[0].equals("")) {
 			suoritettu = TuoteDAO.lisaaTuote(lisattava);
 		}
-		else try {
+		else {
 			suoritettu = TuoteDAO.paivitaTuote(TuoteDAO.Column.TUOTEID, 
 						data[0], 
 						lisattava);
-			
-		} catch (NumberFormatException ex) {}
+		}
 		
 		if (suoritettu) {
 			pageContext.setAttribute("paivitetty", 
