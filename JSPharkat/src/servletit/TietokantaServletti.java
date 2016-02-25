@@ -24,9 +24,9 @@ public class TietokantaServletti extends HttpServlet {
      */
     public TietokantaServletti() {
         super();
-        TuoteDAO.init();
+        TuoteDAO d = TuoteDAO.getInstance();
         try {
-        	this.tuotteet = TuoteDAO.haeKaikki();
+        	this.tuotteet = d.haeKaikki();
         } catch (SQLException ex){
         	System.err.println("Tietoja ei saatu haettua");
         }

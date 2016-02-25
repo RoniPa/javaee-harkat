@@ -25,16 +25,16 @@ public class konsoliHaku {
 				try {
 					Statement stmt = c.createStatement();
 					ResultSet tulokset = stmt.executeQuery("SELECT * FROM tuotetaulu");
+					StringBuffer sb = new StringBuffer();
 					
-					while(tulokset.next()){
-						String r = "";
-						
-						r += tulokset.getString("nimi") + ", ";
-						r += tulokset.getString("koodi") + ", ";
-						r += tulokset.getString("hinta");
-						
-						System.out.println(r);
+					while(tulokset.next()){						
+						sb.append(tulokset.getString("nimi") + ", ");
+						sb.append(tulokset.getString("koodi") + ", ");
+						sb.append(tulokset.getString("hinta") + "\n");
 					}
+					
+					System.out.println(sb.toString());
+					
 				} catch (SQLException ex){
 					System.err.println("SQL poikkeus on tapahtunut");
 				} finally {

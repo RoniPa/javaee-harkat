@@ -15,23 +15,33 @@ public class TuoteDAO {
 		TUOTEID, NIMI, KOODI, HINTA
 	}
 	
-	public static Connection c; 
+	public static TuoteDAO instance = null;
+	private Connection c;
 	
 	/**
-	 * Alustaa yhteyden
+	 * SisÃ¤inen konstruktori, luo instanssin
 	 */
-	public static void init() {
-		if (TuoteDAO.c == null)
-			TuoteDAO.c = TietokantayhteysTehdas.getConnection();
+	private TuoteDAO(){
+		this.c = TietokantayhteysTehdas.getConnection();
+	}
+	
+	/**
+	 * Palauttaa instanssin daosta
+	 * @return
+	 */
+	public static synchronized TuoteDAO getInstance() {
+		if (TuoteDAO.instance == null)
+			TuoteDAO.instance = new TuoteDAO();
+		
+		return TuoteDAO.instance;
 	}
 	
 	/**
 	 * Sulkee yhteyden
 	 */
-	public static void close() {
-		if (TuoteDAO.c != null){
-			TietokantaApu.close(TuoteDAO.c);
-		}
+	public void close() {
+		TietokantaApu.close(this.c);
+		TuoteDAO.instance = null;
 	}
 	
 	/**
@@ -39,37 +49,33 @@ public class TuoteDAO {
 	 * @return Tuotteet
 	 * @throws SQLException
 	 */
-	public static beans.Tuotteet haeKaikki() throws SQLException{
-		if (TuoteDAO.c != null){			
-			Statement stmt = TuoteDAO.c.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT * FROM tuotetaulu");
-			
-			return convertToTuotteet(rs);
-		} else throw new SQLException("Yhteyttä ei ole alustettu!");
+	public beans.Tuotteet haeKaikki() throws SQLException{
+		Statement stmt = this.c.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT * FROM tuotetaulu");
+		
+		return convertToTuotteet(rs);
 	}
 	
 	/**
-	 * Palauttaa kaikki arvot annetun taulun mukaan järjestettynä
+	 * Palauttaa kaikki arvot annetun taulun mukaan jï¿½rjestettynï¿½
 	 * @param taulu Verrattava taulu
 	 * @param jarjestys TuoteDAO.OrderBy
 	 * @return Tuotteet
 	 * @throws SQLException
 	 */
-	public static beans.Tuotteet haeJarjestyksessa(Column taulu, OrderBy jarjestys)
+	public beans.Tuotteet haeJarjestyksessa(Column taulu, OrderBy jarjestys)
 		throws SQLException {
 		
-		if (TuoteDAO.c != null){			
-			Statement stmt = TuoteDAO.c.createStatement();
-			
-			// Voidaan tehdä suoralla queryllä,
-			// koska enum (ei SQL-injektion riskiä)
-			
-			ResultSet rs = stmt.executeQuery(
-					"SELECT * FROM tuotetaulu "
-					+"ORDER BY "+taulu+" "+jarjestys );
+		Statement stmt = this.c.createStatement();
+		
+		// Voidaan tehdï¿½ suoralla queryllï¿½,
+		// koska enum (ei SQL-injektion riskiï¿½)
+		
+		ResultSet rs = stmt.executeQuery(
+				"SELECT * FROM tuotetaulu "
+				+"ORDER BY "+taulu+" "+jarjestys );
 
-			return convertToTuotteet(rs);
-		} else throw new SQLException("Yhteyttä ei ole alustettu!");
+		return convertToTuotteet(rs);
 	}
 	
 	/**
@@ -79,59 +85,54 @@ public class TuoteDAO {
 	 * @return Tuotteet
 	 * @throws SQLException
 	 */
-	public static beans.Tuotteet haeTekstilla(Column taulu, String haku)
+	public beans.Tuotteet haeTekstilla(Column taulu, String haku)
 			throws SQLException {
+					
+		PreparedStatement stmt = this.c.prepareStatement(
+				"SELECT * FROM tuotetaulu "
+				+"WHERE "+taulu+" LIKE ?");
 		
-		if (TuoteDAO.c != null){			
-			PreparedStatement stmt = TuoteDAO.c.prepareStatement(
-					"SELECT * FROM tuotetaulu "
-					+"WHERE "+taulu+" LIKE ?");
-			
-			stmt.setString(1, "%"+haku+"%");
-			ResultSet rs = stmt.executeQuery();
-			
-			return convertToTuotteet(rs);
-		} else throw new SQLException("Yhteyttä ei ole alustettu!");
+		stmt.setString(1, "%"+haku+"%");
+		ResultSet rs = stmt.executeQuery();
+		
+		return convertToTuotteet(rs);
 	}
 	
 	/**
-	 * Lisää annetun Tuote-olion tietokantaan
+	 * Lisï¿½ï¿½ annetun Tuote-olion tietokantaan
 	 * @param t Tuote
 	 * @return true jos suoritettu query
 	 * @throws SQLException
 	 */
-	public static boolean lisaaTuote(beans.Tuote t)
-		throws SQLException {
-		
-		if (TuoteDAO.c != null){
-			if (t.getNimi()!= null 
-				&& t.getKoodi() != null 
-				&& t.getHinta() != null) {
-				
-				PreparedStatement stmt = TuoteDAO.c.prepareStatement(
-						"INSERT INTO tuotetaulu (nimi, koodi, hinta)"
-						+"VALUES(?,?,?)");
-				
-				stmt.setString(1, t.getNimi());
-				stmt.setString(2, t.getKoodi());
-				stmt.setDouble(3, t.getHinta());
-				stmt.execute();
-				return true;
-				
-			} else throw new SQLException("Tuotetta ei voi lisätä, arvoja puuttuu");
-		} else throw new SQLException("Yhteyttä ei ole alustettu!");
+	public boolean lisaaTuote(beans.Tuote t)
+			throws SQLException {
+	
+		if (t.getNimi()!= null 
+			&& t.getKoodi() != null 
+			&& t.getHinta() != null) {
+			
+			PreparedStatement stmt = this.c.prepareStatement(
+					"INSERT INTO tuotetaulu (nimi, koodi, hinta)"
+					+"VALUES(?,?,?)");
+			
+			stmt.setString(1, t.getNimi());
+			stmt.setString(2, t.getKoodi());
+			stmt.setDouble(3, t.getHinta());
+			stmt.execute();
+			return true;
+			
+		} else throw new SQLException("Tuotetta ei voi lisï¿½tï¿½, arvoja puuttuu");
 	}
 	
 	/**
-	 * Päivittää annetun tuotteen tiedot tietokantaan
+	 * Pï¿½ivittï¿½ï¿½ annetun tuotteen tiedot tietokantaan
 	 * @param t
 	 * @return true jos suoritettu query
 	 * @throws SQLException
 	 */
-	public static boolean paivitaTuote(Column c, String haku, beans.Tuote t)
+	public boolean paivitaTuote(Column c, String haku, beans.Tuote t)
 			throws SQLException {
 		
-		if (TuoteDAO.c != null){
 			if (c != Column.HINTA) {
 				
 				// Luodaan oikea update-query
@@ -153,9 +154,9 @@ public class TuoteDAO {
 				}
 				
 				// c = Column enum, params DAO:ssa generoitu SQL
-				// käyttäjän syötteet syötetään parametreina
+				// kï¿½yttï¿½jï¿½n syï¿½tteet syï¿½tetï¿½ï¿½n parametreina
 				
-				PreparedStatement stmt = TuoteDAO.c.prepareStatement(
+				PreparedStatement stmt = this.c.prepareStatement(
 						"UPDATE tuotetaulu "
 						+ params + "WHERE "+c+" = ?");
 				
@@ -173,7 +174,7 @@ public class TuoteDAO {
 					paramInd++;
 				}
 				
-				// Validoidaan id (jos se on asetettu päivitysehto)
+				// Validoidaan id (jos se on asetettu pï¿½ivitysehto)
 				switch (c) {
 					case TUOTEID :
 						try {
@@ -184,8 +185,8 @@ public class TuoteDAO {
 						}
 						break;
 					
-					// Muut hyväksytyt arvot tekstimuotoisia,
-					// joten voidaan käsitellä oletusarvolla
+					// Muut hyvï¿½ksytyt arvot tekstimuotoisia,
+					// joten voidaan kï¿½sitellï¿½ oletusarvolla
 					
 					default: stmt.setString(paramInd, haku);
 				}
@@ -194,9 +195,8 @@ public class TuoteDAO {
 				return true;
 				
 			} else {
-				throw new SQLException("Tuotetta ei voi päivittää hinnan perusteella");
+				throw new SQLException("Tuotetta ei voi pï¿½ivittï¿½ï¿½ hinnan perusteella");
 			}
-		} else throw new SQLException("Yhteyttä ei ole alustettu!");
 	}
 	
 	/**

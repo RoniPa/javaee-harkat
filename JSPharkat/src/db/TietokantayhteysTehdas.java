@@ -35,7 +35,7 @@ public class TietokantayhteysTehdas {
 
 	public static final String MYSQL_URL = "jdbc:mysql://localhost/jee";
 	public static final String MYSQL_KAYTTAJA = "root";
-	public static final String MYSQL_SALASANA = "";
+	public static final String MYSQL_SALASANA = "root66";
 
 	// H2 kannan asetukset
 	//public static final String H2_URL = "jdbc:h2:tcp://localhost/~/softat/h2/demo;DATABASE_TO_UPPER=false;MODE=MySQL"; // palvelinmoodi, h2.jar käynnistettävä erikseen.
