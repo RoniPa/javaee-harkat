@@ -9,7 +9,10 @@
     <h:head>
         <title>Fishes</title>
     </h:head>
-    <h:body>		
+    <h:body>
+    	<div style="color:red; font-style: italic">
+    		<h:messages />
+    	</div>	
 		<h:form id="lomake">
 			<h1>Fish taustakomponentin - tietojen tallennus</h1>            
 							
@@ -17,11 +20,16 @@
 			
 			<div>species<h:inputText id="species" value="#{fish.species}" /></div>
 			<div>name<h:inputText id="name" value="#{fish.name}" /></div>
-			<div>weight<h:inputText id="weight" value="#{fish.weight}" /></div>
-			<div>length<h:inputText id="length" value="#{fish.length}" /></div>
+			<div>weight<h:inputText id="weight" value="#{fish.weight}">
+				</h:inputText>
+			</div>
+			<div>length<h:inputText id="length" value="#{fish.length}">
+				</h:inputText></div>
 			
 			<p>
-				<h:commandButton action="#{fishController.tarkista}" value="tarkasta" />
+				<h:commandButton action="#{fishController.tarkista}" value="tarkasta">
+					<f:ajax execute="@form" render="@all" />
+				</h:commandButton>
 			</p>
 		</h:form>
             

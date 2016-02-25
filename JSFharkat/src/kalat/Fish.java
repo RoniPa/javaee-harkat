@@ -2,6 +2,8 @@ package kalat;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @ManagedBean
 @SessionScoped
@@ -19,7 +21,7 @@ public class Fish implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "Fish [species=" + species + ", name=" + name + ", weight="
-				+ weight + ", length=" + length + ", editable=" + editable
+				+ weight + " kg, length=" + length + " m, editable=" + editable
 				+ "]";
 	}
 	
