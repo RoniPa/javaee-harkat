@@ -8,6 +8,8 @@
 !JPAharkat/src/*/*
 !JSPharkat/src/*/*
 !JSPharkat/WebContent/*/*
+!JSFharkat/src/*/*
+!JSFharkat/WebContent/*/*
 
 # ...even if they are in subdirectories
 !*/
