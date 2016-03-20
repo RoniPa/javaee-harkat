@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>Lisää tuote</title>
+    </h:head>
+    <h:body>
+    	<div style="color:red; font-style: italic">
+    		<h:messages />
+    	</div>	
+		<h:form id="lomake" var="#{tuotteet}">
+			<h1>Lisää tuote</h1>			
+			<div>Nimi<h:inputText id="tuoteNimi" value="#{tuote.nimi}" /></div>
+			<div>Koodi<h:inputText id="tuoteKoodi" value="#{tuote.koodi}" /></div>
+			<div>Hinta<h:inputText id="tuoteHinta" value="#{tuote.hinta}" /></div>	
+			<p>
+				<h:commandButton action="#{tuoteController.lisaa}">
+					<f:ajax execute="@form" render="@all" />
+				</h:commandButton>
+			</p>
+		</h:form>            
+    </h:body>
+</html>

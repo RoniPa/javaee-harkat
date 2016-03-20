@@ -6,10 +6,15 @@
 !tomEEprojekti/src/jdbcharkat/*
 !JPAharkat/src/*
 !JPAharkat/src/*/*
+
 !JSPharkat/src/*/*
 !JSPharkat/WebContent/*/*
+
 !JSFharkat/src/*/*
 !JSFharkat/WebContent/*/*
+
+!vikatJSFharkat/src/*/*
+!vikatJSFharkat/WebContent/*/*
 
 # ...even if they are in subdirectories
 !*/

@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>Kirjaharkka</title>
+    </h:head>
+    <h:body>
+    	<div style="color:red; font-style: italic">
+    		<h:messages />
+    	</div>
+    	<h1>Harjoitus 3</h1>
+    	
+		<h:dataTable value="#{bookMap.kirjat}" var="k">
+   			<h:column>
+   				<!-- column header -->
+   				<f:facet name="header">ISBN</f:facet>
+   				<!-- row record -->
+   				#{k.isbn}
+   			</h:column>
+   			<h:column>
+   				<f:facet name="header">Nimi</f:facet>
+   				#{k.nimi}
+   			</h:column>
+   			<h:column>
+   				<f:facet name="header">Tekijät</f:facet>
+   				#{k.tekijat}
+   			</h:column>
+   		</h:dataTable>          
+    </h:body>
+</html>

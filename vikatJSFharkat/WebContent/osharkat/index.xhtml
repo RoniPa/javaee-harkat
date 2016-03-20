@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>Os juttuja</title>
+    </h:head>
+    <h:body>
+    	<div style="color:red; font-style: italic">
+    		<h:messages />
+    	</div>	
+		<h:form id="lomake">
+			<h1>OsSystem testi</h1>			
+			<div>Name<h:inputText id="osName" value="#{osSystem.name}" /></div>
+			<div>Version<h:inputText id="osVersio" value="#{osSystem.versio}" /></div>			
+			<p>
+				<h:commandButton>
+					<f:ajax execute="@form" render="@all" />
+				</h:commandButton>
+			</p>
+		</h:form>
+		
+		<div><h2>OsSystem objekti:</h2><h:outputText value="#{osSystem}" /></div>
+            
+    </h:body>
+</html>
