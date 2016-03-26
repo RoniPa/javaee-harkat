@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Autot{
-	ArrayList<Auto> autot;
+	private ArrayList<Auto> autot;
 	
 	public Autot(){
 		this.autot = new ArrayList<>();
